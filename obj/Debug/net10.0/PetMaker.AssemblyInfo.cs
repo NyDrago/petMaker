@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PetMaker")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2b58547ef870fddca886fea5de71f712f6f0b315")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6b66b0ad24de1ee980878757d408208fee3ca2c9")]
 [assembly: System.Reflection.AssemblyProductAttribute("PetMaker")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PetMaker")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
