@@ -10,10 +10,16 @@ public static class AnimationSlots
         ("walk", "Walk animation"),
         ("fall", "Fall animation"),
         ("drag", "Carried animation"),
+        ("sit", "Sit animation (on taskbar)"),
+        ("lay", "Lay animation (on taskbar)"),
+        ("sitfree", "Sit animation (away from taskbar)"),
+        ("layfree", "Lay animation (away from taskbar)"),
     };
+
+    public static bool IsRest(string key) => key is "sit" or "lay" or "sitfree" or "layfree";
 }
 
-public sealed record Clip(Bitmap[] Frames, double Fps);
+public sealed record Clip(Bitmap[] Frames, double Fps, AnchorPoint?[] Anchors);
 
 public sealed class PetSprites : IDisposable
 {
@@ -27,7 +33,7 @@ public sealed class PetSprites : IDisposable
 
     PetSprites(Bitmap main)
     {
-        _main = new Clip(new[] { main }, 1);
+        _main = new Clip(new[] { main }, 1, new AnchorPoint?[] { null });
         Track(main);
     }
 
@@ -44,17 +50,21 @@ public sealed class PetSprites : IDisposable
         foreach (var (slot, anim) in pet.Animations)
         {
             var frames = new List<Bitmap>();
-            foreach (var file in anim.Frames)
+            var anchors = new List<AnchorPoint?>();
+            for (var i = 0; i < anim.Frames.Count; i++)
             {
-                try { frames.Add(new Bitmap(store.FramePath(file))); }
-                catch { }
+                try { frames.Add(new Bitmap(store.FramePath(anim.Frames[i]))); }
+                catch { continue; }
+                anchors.Add(i < anim.Anchors.Count ? anim.Anchors[i] : null);
             }
             if (frames.Count == 0) continue;
             foreach (var frame in frames) sprites.Track(frame);
-            sprites._clips[slot] = new Clip(frames.ToArray(), Math.Max(0.1, anim.Fps));
+            sprites._clips[slot] = new Clip(frames.ToArray(), Math.Max(0.1, anim.Fps), anchors.ToArray());
         }
         return sprites;
     }
+
+    public bool Has(string slot) => _clips.ContainsKey(slot);
 
     public Clip Get(string slot)
     {

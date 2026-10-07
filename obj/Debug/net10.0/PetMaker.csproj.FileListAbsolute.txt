@@ -67,3 +67,4 @@
 /home/temperance/CODE/PetMaker/obj/Debug/net10.0/PetMaker.pdb
 /home/temperance/CODE/PetMaker/obj/Debug/net10.0/PetMaker.genruntimeconfig.cache
 /home/temperance/CODE/PetMaker/obj/Debug/net10.0/ref/PetMaker.dll
+/home/temperance/CODE/PetMaker/obj/Debug/net10.0/PetMaker.sourcelink.json

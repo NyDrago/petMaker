@@ -2,9 +2,16 @@ using System.Text.Json;
 
 namespace PetMaker;
 
+public sealed class AnchorPoint
+{
+    public double X { get; set; }
+    public double Y { get; set; }
+}
+
 public sealed class AnimationDef
 {
     public List<string> Frames { get; set; } = new();
+    public List<AnchorPoint?> Anchors { get; set; } = new();
     public double Fps { get; set; } = 8;
 }
 
@@ -18,6 +25,10 @@ public sealed class PetDef
     public bool WalkOverTaskbar { get; set; }
     public bool Gravity { get; set; }
     public int WalkUrge { get; set; } = 60;
+    public int SitUrge { get; set; }
+    public int LayUrge { get; set; }
+    public bool SitSame { get; set; } = true;
+    public bool LaySame { get; set; } = true;
     public Dictionary<string, AnimationDef> Animations { get; set; } = new();
 }
 
@@ -61,7 +72,7 @@ public sealed class PetStore
         return pet;
     }
 
-    public void SetAnimation(PetDef pet, string slot, IReadOnlyList<string> sources, double fps)
+    public void SetAnimation(PetDef pet, string slot, IReadOnlyList<string> sources, double fps, IReadOnlyList<AnchorPoint?>? anchors = null)
     {
         DeleteFrames(pet, slot);
         pet.Animations.Remove(slot);
@@ -75,6 +86,8 @@ public sealed class PetStore
             File.Copy(sources[i], FramePath(file), overwrite: true);
             anim.Frames.Add(file);
         }
+        for (var i = 0; i < sources.Count; i++)
+            anim.Anchors.Add(anchors is not null && i < anchors.Count ? anchors[i] : null);
         pet.Animations[slot] = anim;
     }
 

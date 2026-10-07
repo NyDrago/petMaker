@@ -85,7 +85,7 @@ public partial class MainWindow : Window
             var size = item.Def.Size > 0 ? item.Def.Size : Math.Min(256, sprites.MaxSide);
             var speed = item.Def.Speed > 0 ? item.Def.Speed : PetWindow.DefaultSpeed;
 
-            var win = new PetWindow(sprites, size, item.Def.WalkOverTaskbar, item.Def.Gravity, speed, item.Def.WalkUrge);
+            var win = new PetWindow(sprites, size, item.Def.WalkOverTaskbar, item.Def.Gravity, speed, item.Def.WalkUrge, item.Def.SitUrge, item.Def.LayUrge, item.Def.SitSame, item.Def.LaySame);
             win.Closed += (_, _) => Status.Text = $"{--_running} pet(s) running";
             win.Show();
             Status.Text = $"{++_running} pet(s) running";
